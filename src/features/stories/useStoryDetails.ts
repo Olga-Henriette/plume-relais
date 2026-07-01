@@ -16,7 +16,9 @@ export interface StoryDetails {
       id: string;
       paragraph_text: string;
       is_canon: boolean;
+      author_id: string;
       profiles: { username: string } | null;
+      proposal_votes: { profile_id: string }[]; // Liste des votes reçus
     }[];
   }[];
 }
@@ -42,7 +44,9 @@ export const useStoryDetails = (storyId: string) => {
               id,
               paragraph_text,
               is_canon,
-              profiles:author_id (username)
+              author_id,
+              profiles:author_id (username),
+              proposal_votes (profile_id)
             )
           )
         `)
