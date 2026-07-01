@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
 import { useStories } from '@/features/stories/useStories';
+import { useRouter } from 'expo-router';
 
 export default function FeedScreen() {
+  const router = useRouter();
   const { data: stories, isLoading, error, refetch } = useStories();
 
   if (isLoading) {
@@ -41,9 +43,10 @@ export default function FeedScreen() {
           const turnLabel = activeTurn ? `Tour ${activeTurn.turn_number}` : 'Terminé';
           
           return (
-            <View 
+            <TouchableOpacity 
               key={story.id} 
-              className="w-full bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 mb-4"
+              onPress={() => router.push(`/story/${story.id}`)}
+              className="w-full bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 mb-4 active:opacity-70"
             >
               <View className="flex-row justify-between items-center mb-3">
                 <View className="bg-indigo-50 dark:bg-indigo-950/50 px-3 py-1 rounded-full">
@@ -66,13 +69,13 @@ export default function FeedScreen() {
                   Limite : {story.max_contributions} paragraphes
                 </Text>
                 
-                <TouchableOpacity className="bg-indigo-600 px-4 py-2 rounded-xl">
+                <View className="bg-indigo-600 px-4 py-2 rounded-xl">
                   <Text className="text-white text-xs font-bold">
                     {story.status === 'completed' ? 'Lire' : 'Rejoindre'}
                   </Text>
-                </TouchableOpacity>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         })
       )}
