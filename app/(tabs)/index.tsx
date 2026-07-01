@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 
 export default function FeedScreen() {
   const router = useRouter();
-  const { data: stories, isLoading, error, refetch } = useStories();
+  const { data: stories, isLoading, error, refetch, isFetching } = useStories();
 
   if (isLoading) {
     return (
@@ -32,6 +32,14 @@ export default function FeedScreen() {
         <Text className="text-2xl font-bold text-gray-900 dark:text-white">Vos récits collaboratifs</Text>
         <Text className="text-gray-500 dark:text-gray-400 mt-1">Découvrez ou contribuez à une histoire en cours.</Text>
       </View>
+
+      {isFetching && !isLoading && (
+        <View className="w-full bg-indigo-50 dark:bg-indigo-950/30 py-1 px-3 rounded-md mb-2 flex-row justify-center items-center">
+          <Text className="text-[11px] text-indigo-600 dark:text-indigo-400 font-medium">
+            Mise à jour du récit en cours...
+          </Text>
+        </View>
+      )}
 
       {stories && stories.length === 0 ? (
         <View className="p-8 items-center justify-center bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">

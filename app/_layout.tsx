@@ -15,6 +15,8 @@ const queryClient = new QueryClient({
     queries: {
       retry: 2,
       refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 5, // Les données sont considérées fraîches pendant 5 mn
+      gcTime: 1000 * 60 * 60 * 24, // Conserve le cache en mémoire pendant 24 h
     },
   },
 });
