@@ -1,31 +1,18 @@
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-
-export default function TabTwoScreen() {
+export default function CreateStoryScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
-    </View>
+    <ScrollView className="flex-1 bg-gray-50 dark:bg-gray-900 p-4">
+      <View className="mb-6 mt-2">
+        <Text className="text-2xl font-bold text-gray-900 dark:text-white">Lancer un récit</Text>
+        <Text className="text-gray-500 dark:text-gray-400 mt-1">Définissez vos règles et invitez des auteurs.</Text>
+      </View>
+      
+      {/* Conteneur temporaire */}
+      <View className="p-8 items-center justify-center bg-white dark:bg-gray-800 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700">
+        <Text className="text-gray-400 text-center">Le formulaire de création sera configuré à l'étape suivante.</Text>
+      </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
