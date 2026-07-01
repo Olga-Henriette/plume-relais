@@ -5,6 +5,7 @@ import { Lock, ThumbsUp, CheckCircle2 } from 'lucide-react-native';
 import { useStoryDetails } from '@/features/stories/useStoryDetails';
 import { useVote } from '@/features/stories/useVote';
 import { supabase } from '@/services/supabaseClient';
+import { useResolveTurn } from '@/features/stories/useResolveTurn';
 
 export default function StoryDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -19,6 +20,7 @@ export default function StoryDetailsScreen() {
 
   const { data: story, isLoading, error } = useStoryDetails(id || '');
   const { mutate: toggleVote } = useVote(id || '');
+  const { mutate: resolveTurn, isPending: isResolving } = useResolveTurn();
 
   if (isLoading) {
     return (
@@ -54,11 +56,32 @@ export default function StoryDetailsScreen() {
     toggleVote({ proposalId, profileId: userId });
   };
 
+  const handleResolveTurn = () => {
+    if (!activeTurn) return;
+    resolveTurn({
+        storyId: story.id,
+        currentTurnId: activeTurn.id,
+        currentTurnNumber: activeTurn.turn_number,
+        maxContributions: 20 // Reprend la limite ou injecte story.max_contributions si présent
+    });
+  };
+
   return (
     <>
       <Stack.Screen options={{ headerShown: true, title: story.title, headerBackTitle: "Retour" }} />
       <View className="flex-1 bg-gray-50 dark:bg-gray-900">
         <ScrollView className="flex-1 p-4">
+          {story.status !== 'completed' && activeTurn && story.creator_id === userId && (
+            <TouchableOpacity 
+                disabled={isResolving}
+                onPress={handleResolveTurn}
+                className="bg-gray-800 dark:bg-gray-700 p-3 rounded-xl mb-4 items-center justify-center border border-gray-600"
+            >
+                <Text className="text-white text-xs font-bold">
+                {isResolving ? 'Clôture du tour en cours...' : '🔧 Clôturer le tour (Simuler Admin)'}
+                </Text>
+            </TouchableOpacity>
+          )}
           
           {/* Alerte Mode à l'aveugle avec icône vectorielle */}
           {story.is_blind_mode && story.status !== 'completed' && (
