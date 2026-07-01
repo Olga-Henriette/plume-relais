@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { useColorScheme, View } from "react-native";
+import { useColorScheme } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -8,7 +8,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#4F46E5', // Indigo brand
+        tabBarActiveTintColor: '#4F46E5',
         tabBarInactiveTintColor: isDark ? '#9CA3AF' : '#6B7280',
         tabBarStyle: {
           backgroundColor: isDark ? '#111827' : '#FFFFFF',
@@ -39,6 +39,13 @@ export default function TabLayout() {
         options={{
           title: "Créer",
           headerTitle: "Nouvelle Histoire",
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profil",
+          headerTitle: "Mon Profil",
         }}
       />
     </Tabs>
