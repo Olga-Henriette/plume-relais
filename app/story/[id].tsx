@@ -6,6 +6,7 @@ import { useStoryDetails } from '@/features/stories/useStoryDetails';
 import { useVote } from '@/features/stories/useVote';
 import { supabase } from '@/services/supabaseClient';
 import { useResolveTurn } from '@/features/stories/useResolveTurn';
+import { useStoryRealtime } from '@/features/stories/useStoryRealtime';
 
 export default function StoryDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -17,6 +18,8 @@ export default function StoryDetailsScreen() {
       if (user) setUserId(user.id);
     });
   }, []);
+
+  useStoryRealtime(id || '');
 
   const { data: story, isLoading, error } = useStoryDetails(id || '');
   const { mutate: toggleVote } = useVote(id || '');
